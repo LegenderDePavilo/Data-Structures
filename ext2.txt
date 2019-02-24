@@ -1,0 +1,23 @@
+#include<stdio.h>
+#define SIZE 70
+main()
+{
+int a[SIZE],n,s,i;
+printf("\nEnter the array size :");
+scanf("%d",&n);
+printf("\nEnter the elements of the array :");
+for(i=0;i<n;i++)
+scanf("%d",&a[i]);
+printf("\nEnter the number of shifts :");
+scanf("%d",&s);
+printf("\nThe array is :");
+for(i=0;i<n;i++)
+printf("%d\t",a[i]);
+for(i=0;i<s;i++)
+a[n+i]=a[i];
+for(i=s;i<s+n;i++)
+a[i-s]=a[i];
+printf("\nThe updated array is :");
+for(i=0;i<n;i++)
+printf("%d\t",a[i]);
+}

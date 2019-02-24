@@ -1,0 +1,85 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define SIZE 10
+int ar[SIZE],arr[SIZE],n;
+struct stack
+{
+int top;
+int capacity;
+int *ar;
+}*s;
+int isempty()
+{
+return(s->top==-1);
+}
+int isfull()
+{
+return(s->top==s->capacity);
+}
+void push(int i)
+{
+if(isfull())
+printf("\nStack overflow");
+else
+s->ar[++s->top]=i;
+}
+int pop()
+{
+if(isempty())
+return;
+else
+return(s->ar[s->top--]);
+}
+int top()
+{
+if(isempty())
+return;
+return (s->ar[s->top]);
+}
+main()
+{
+int n,i=0;
+s=malloc(sizeof (struct stack));
+if(!s)
+exit(1);
+s->capacity=SIZE;
+s->top=-1;
+s->ar=malloc(s->capacity*sizeof(int));
+if(!s->ar)
+exit(1);
+printf("\nEnter the number of elements of the array : ");
+scanf("%d",&n);
+printf("\nEnter the elements : ");
+for(i=0;i<n;i++)
+scanf("%d",arr[i]);
+printf("\nThe elements are : ");
+for(i=0;i<n;i++)
+printf("%d\t",arr[i]);
+printf("\nThe maximum area is : %d",maxarea());
+}
+int maxarea()
+{
+int temp,area,maxarea=0,i;
+while(i<n)
+{
+if(isempty()||(s->ar[top()]<=arr[i]))
+push(i++);
+else
+{
+temp=top();
+pop();
+area=(arr[temp]*(isempty()?i:i-top()-1));
+if(maxarea<area)
+maxarea=area;
+}
+}
+while(isempty())
+{
+temp=top();
+pop();
+area=arr[temp]*(isempty()?i:i-top()-1);
+if(maxarea<area)
+maxarea=area;
+}
+return maxarea;
+}

@@ -1,0 +1,159 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#define SIZE 20
+#define N 10
+struct bstnode{
+int data;
+struct bstnode *left,*right;
+}*root=NULL;
+struct bstnode*getnewnode(int data);
+struct bstnode*insert(struct bstnode*root,int data);
+void preorder(struct bstnode *root);
+void postorder(struct bstnode *root);
+void inorder(struct bstnode *root);
+void node(int,int);
+int arr[SIZE];
+main()
+{
+int n,i,j,l=0,r;
+printf("\nEnter the number of nodes of the tree :");
+scanf("%d",&n);
+printf("\n\nEnter the nodes of the tree in any manner you like :\n\n");
+for(i=0;i<n;i++)
+scanf("%d",&arr[i]);
+for(i=1;i<n;i++)
+{
+r=arr[i];
+j=i;
+while(arr[j-1]>r&&j>=1)
+{
+arr[j]=arr[j-1];
+j--;
+}
+arr[j]=r;
+}
+printf("\n\nThe sorted list is :\n\n");
+for(i=0;i<n;i++)
+printf("\t%d",arr[i]);
+r=n-1;
+printf("\n\nThe nodes of the tree are entered in the following manner :\n\n");
+node(l,r);
+printf("\n\nThe preorder traversal of the tree is :\n\n");
+preorder(root);
+printf("\n\nThe postorder traversal of the tree is :\n\n");
+postorder(root);
+printf("\n\nThe inorder traversal of the tree is :\n");
+inorder(root);
+}
+void node(int l,int r)
+{
+if(l==r)
+{
+printf("\t%d",arr[l]);
+root=insert(root,arr[l]);
+return;
+}
+if(l<r)
+{
+int k=0,i,n,h,x,e,d;
+n=r-l+1;
+for(i=0;i<N;i++)
+{
+k+=pow(2,i);
+if(k==n)
+break;
+if(k>n)
+break;
+}
+if(k==n)
+{
+h=(n-1)/2+l;
+printf("\t%d",arr[h]);
+root=insert(root,arr[h]);
+if(l<=r)
+{
+node(l,h-1);
+node(h+1,r);
+}
+}
+if(k>n)
+{
+d=k-n;
+e=pow(2,i);
+x=e/2;
+d=e-d;
+if(d<x)
+{
+h=((n-d-1)/2)+d+l;
+printf("\t%d",arr[h]);
+root=insert(root,arr[h]);
+if(l<=r)
+{
+node(l,h-1);
+node(h+1,r);
+}
+}
+if(d>=x)
+{
+h=((n-x-1)/2)+x+l;
+printf("\t%d",arr[h]);
+root=insert(root,arr[h]);
+if(l<=r)
+{
+node(l,h-1);
+node(h+1,r);
+}
+}
+}
+}
+return;
+}
+struct bstnode*getnewnode(int data)
+{
+struct bstnode *newnode=(struct bstnode*)malloc(sizeof(struct bstnode));
+newnode->data=data;
+newnode->left=newnode->right=NULL;
+return newnode;
+}
+struct bstnode*insert(struct bstnode *root,int data)
+{
+if(root==NULL)
+{
+root=getnewnode(data);
+return root;
+}
+else if(data<=root->data)
+root->left=insert(root->left,data);
+else
+root->right=insert(root->right,data);
+return root;
+}
+void preorder(struct bstnode *root)
+{
+if(root==NULL)
+return;
+printf("\t%d",root->data);
+preorder(root->left);
+preorder(root->right);
+}
+void postorder(struct bstnode *root)
+{
+if(root==NULL)
+return;
+postorder(root->left);
+postorder(root->right);
+printf("\t%d",root->data);
+}
+void inorder(struct bstnode *root)
+{
+if(root==NULL)
+return;
+inorder(root->left);
+printf("\t%d",root->data);
+inorder(root->right);
+}
+
+
+
+
